@@ -1,0 +1,215 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  --ink: #1b2330;
+  --muted: #5b6575;
+  --denim: #2f4f7f;
+  --paper: #f4f5f7;
+  --surface: #ffffff;
+  --line: #d3d8e0;
+  --hover: #eef2f8;
+  --danger: #b3261e;
+  --danger-bg: #fdecea;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+ 
+.resultados {
+  display: grid;
+  gap: 1.5rem;
+  max-width: 52rem;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+ 
+/* Título y conteo a la izquierda; selector de vista (solo admin) a la derecha */
+.resultados__cabecera {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+ 
+.resultados__head h1 {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+ 
+.resultados__head p {
+  margin: 0.4rem 0 0;
+  color: var(--muted);
+}
+ 
+.segmentos {
+  display: inline-flex;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+ 
+.segmentos button {
+  padding: 0.45rem 0.9rem;
+  font: inherit;
+  font-size: 0.9rem;
+  color: var(--ink);
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+ 
+.segmentos button + button {
+  border-left: 1px solid var(--line);
+}
+ 
+.segmentos button:hover {
+  background: var(--hover);
+}
+ 
+.segmentos button[aria-pressed="true"] {
+  color: #fff;
+  background: var(--denim);
+}
+ 
+.segmentos button:focus-visible {
+  outline: 2px solid var(--denim);
+  outline-offset: -2px;
+}
+ 
+.aviso {
+  margin: 0;
+  padding: 0.7rem 0.9rem;
+  font-size: 0.9rem;
+  color: var(--danger);
+  background: var(--danger-bg);
+  border-radius: 8px;
+}
+ 
+.estado {
+  margin: 0;
+  padding: 0.75rem 0;
+  color: var(--muted);
+}
+ 
+/* ---------- Lista de prendas (igual que en la subcategoría) ---------- */
+ 
+.prendas {
+  display: grid;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+ 
+.prenda {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  padding: 0.9rem 1.1rem;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  cursor: pointer;
+}
+ 
+.prenda:hover {
+  background: var(--hover);
+  border-color: var(--denim);
+}
+ 
+.prenda:focus-visible {
+  outline: 2px solid var(--denim);
+  outline-offset: 2px;
+}
+ 
+.prenda__principal {
+  display: grid;
+  gap: 0.45rem;
+  min-width: 0;
+}
+ 
+.prenda__nombre {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+}
+ 
+.prenda__ruta {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+ 
+.prenda__datos {
+  display: grid;
+  flex: none;
+  gap: 0.2rem;
+  text-align: right;
+}
+ 
+.prenda__precio {
+  font-weight: 600;
+}
+ 
+.prenda__stock {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+ 
+.prenda__stock--agotado {
+  color: var(--danger);
+}
+ 
+/* Inactiva en rojo, con el rojo de la paleta (el #ff0000 puro no llega al contraste mínimo con texto blanco chico) */
+.insignia {
+  padding: 0.1rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #fff;
+  background-color: var(--danger);
+  border-radius: 999px;
+}
+ 
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+ 
+.tag {
+  padding: 0.1rem 0.5rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+  background: var(--hover);
+  border-radius: 4px;
+}
+ 
+@media (prefers-reduced-motion: no-preference) {
+  .prenda,
+  .segmentos button {
+    transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+  }
+}
+ 
+@media (max-width: 560px) {
+  .prenda {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+ 
+  .prenda__datos {
+    text-align: left;
+  }
+}

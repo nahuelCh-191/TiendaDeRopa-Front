@@ -1,0 +1,306 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  --ink: #1b2330;
+  --muted: #5b6575;
+  --denim: #2f4f7f;
+  --denim-dark: #263f66;
+  --paper: #f4f5f7;
+  --surface: #ffffff;
+  --line: #d3d8e0;
+  --hover: #eef2f8;
+  --danger: #b3261e;
+  --danger-bg: #fdecea;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+ 
+.vendedores {
+  display: grid;
+  gap: 1.5rem;
+  max-width: 52rem;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+ 
+.vendedores__head h1 {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+ 
+.vendedores__head p {
+  margin: 0.4rem 0 0;
+  color: var(--muted);
+}
+ 
+.aviso {
+  margin: 0;
+  padding: 0.7rem 0.9rem;
+  font-size: 0.9rem;
+  color: var(--danger);
+  background: var(--danger-bg);
+  border-radius: 8px;
+}
+ 
+.aviso--info {
+  color: var(--denim);
+  background: var(--hover);
+}
+ 
+.estado {
+  margin: 0;
+  padding: 0.75rem 0;
+  color: var(--muted);
+}
+ 
+/* ---------- Formulario ---------- */
+ 
+.formulario {
+  display: grid;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+ 
+.formulario--editando {
+  border-color: var(--denim);
+}
+ 
+.formulario h2,
+.seccion h2 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+ 
+.formulario__cuerpo {
+  display: grid;
+  gap: 1rem;
+}
+ 
+.formulario__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+ 
+.campos {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1rem;
+}
+ 
+.field {
+  display: grid;
+  gap: 0.4rem;
+  align-content: start;
+}
+ 
+.field label {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+ 
+.field input,
+.field select {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0.7rem 0.85rem;
+  font: inherit;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+ 
+.field select {
+  padding-right: 2.2rem;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8' fill='none' stroke='%235b6575' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m1 1.5 5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.85rem center;
+  background-size: 0.7rem;
+  appearance: none;
+}
+ 
+.field input::placeholder {
+  color: #8b94a3;
+}
+ 
+.field input:focus-visible,
+.field select:focus-visible {
+  outline: none;
+  border-color: var(--denim);
+  box-shadow: 0 0 0 3px rgba(47, 79, 127, 0.22);
+}
+ 
+.field input.ng-touched.ng-invalid {
+  border-color: var(--danger);
+}
+ 
+.field__ayuda {
+  font-size: 0.825rem;
+  color: var(--muted);
+}
+ 
+.field__error {
+  font-size: 0.825rem;
+  color: var(--danger);
+}
+ 
+/* ---------- Botones ---------- */
+ 
+.gestion__boton {
+  padding: 0.7rem 1.1rem;
+  font: inherit;
+  font-weight: 600;
+  color: #fff;
+  background: var(--denim);
+  border: 1px solid var(--denim);
+  border-radius: 8px;
+  cursor: pointer;
+}
+ 
+.gestion__boton:hover {
+  background: var(--denim-dark);
+  border-color: var(--denim-dark);
+}
+ 
+.gestion__boton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+ 
+.gestion__boton:focus-visible {
+  outline: 2px solid var(--denim);
+  outline-offset: 3px;
+}
+ 
+.gestion__boton--secundario {
+  color: var(--ink);
+  background: var(--surface);
+  border-color: var(--line);
+}
+ 
+.gestion__boton--secundario:hover {
+  background: var(--hover);
+  border-color: var(--line);
+}
+ 
+.gestion__boton--peligro {
+  color: var(--danger);
+  background: var(--surface);
+  border-color: var(--danger);
+}
+ 
+.gestion__boton--peligro:hover {
+  background: var(--danger-bg);
+  border-color: var(--danger);
+}
+ 
+.gestion__boton--chico {
+  padding: 0.45rem 0.8rem;
+  font-size: 0.9rem;
+}
+ 
+/* ---------- Lista ---------- */
+ 
+.seccion {
+  display: grid;
+  gap: 1rem;
+}
+ 
+.vendedores__lista {
+  display: grid;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+ 
+.vendedor {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 1.1rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+ 
+.vendedor--editando {
+  background: var(--hover);
+  border-color: var(--denim);
+}
+ 
+.vendedor__info {
+  display: grid;
+  gap: 0.4rem;
+  min-width: 0;
+}
+ 
+.vendedor__email {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+ 
+.vendedor__marcas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+ 
+.rol {
+  padding: 0.1rem 0.55rem;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--muted);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+}
+ 
+.rol--admin {
+  color: var(--denim);
+  background: var(--hover);
+  border-color: var(--denim);
+}
+ 
+.vos {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+ 
+.vendedor__acciones {
+  display: flex;
+  flex: none;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+ 
+@media (prefers-reduced-motion: no-preference) {
+  .field input,
+  .field select,
+  .gestion__boton {
+    transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s, color 0.15s;
+  }
+}
+ 
+@media (max-width: 560px) {
+  .campos {
+    grid-template-columns: 1fr;
+  }
+ 
+  .vendedor {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

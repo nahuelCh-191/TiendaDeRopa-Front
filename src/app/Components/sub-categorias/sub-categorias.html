@@ -1,0 +1,305 @@
+<main class="subcat">
+  <button type="button" class="enlace" (click)="volver()">‹ Categorías</button>
+ 
+  @if (subCategoria; as sub) {
+    <header class="subcat__head">
+      <h1>{{ sub.nombreSubCategoria }}</h1>
+      <p>Categoría: {{ sub.categoria.nombreCategoria }}</p>
+    </header>
+  }
+ 
+  @if (mensajeError) {
+    <p class="aviso" role="alert">{{ mensajeError }}</p>
+  }
+ 
+  <!-- ===== Prendas ===== -->
+  <section class="seccion" aria-labelledby="titulo-prendas">
+    <div class="seccion__cabecera">
+      <h2 id="titulo-prendas">Prendas</h2>
+ 
+      @if (esAdmin) {
+        <div class="segmentos" role="group" aria-label="Qué prendas mostrar">
+          <button
+            type="button"
+            [attr.aria-pressed]="vista === 'activas'"
+            (click)="vista = 'activas'; cargarPrendas()"
+          >
+            Activas
+          </button>
+          <button
+            type="button"
+            [attr.aria-pressed]="vista === 'inactivas'"
+            (click)="vista = 'inactivas'; cargarInactivas()"
+          >
+            Inactivas
+          </button>
+          <button
+            type="button"
+            [attr.aria-pressed]="vista === 'todas'"
+            (click)="vista = 'todas'; cargarTodasPrendas()"
+          >
+            Todas
+          </button>
+        </div>
+      }
+    </div>
+ 
+    @if (etiquetasPermitidas.length > 0) {
+      <div class="filtro" role="group" aria-label="Filtrar por etiquetas">
+        @for (e of etiquetasPermitidas; track e.id) {
+          <button
+            type="button"
+            class="etiqueta"
+            [attr.aria-pressed]="etiquetasFiltro.includes(e.id)"
+            (click)="alternarFiltroEtiqueta(e.id)"
+          >
+            {{ e.nombreEtiqueta }}
+          </button>
+        }
+ 
+        @if (etiquetasFiltro.length > 0) {
+          <button type="button" class="enlace" (click)="etiquetasFiltro = []">
+            Limpiar filtro
+          </button>
+        }
+      </div>
+    }
+ 
+    <ul class="prendas">
+      @for (p of prendasFiltradas; track p.id) {
+        <li>
+          <button type="button" class="prenda" (click)="seleccionarPrenda(p.id)">
+            <span class="prenda__principal">
+              <span class="prenda__nombre">
+                {{ p.nombrePrenda }}
+                @if (!p.prendaActiva) {
+                  <span class="insignia">Inactiva</span>
+                }
+              </span>
+ 
+              @if (p.listaEtiquetasPrenda.length > 0) {
+                <span class="tags">
+                  @for (e of p.listaEtiquetasPrenda; track e.id) {
+                    <span class="tag">{{ e.nombreEtiqueta }}</span>
+                  }
+                </span>
+              }
+            </span>
+ 
+            <span class="prenda__datos">
+              <span class="prenda__precio">$ {{ p.precioPrenda }}</span>
+              <span class="prenda__stock" [class.prenda__stock--agotado]="p.cantidad === 0">
+                {{ p.cantidad === 0 ? 'Sin stock' : 'Stock: ' + p.cantidad }}
+              </span>
+            </span>
+          </button>
+        </li>
+      } @empty {
+        <li class="estado">
+          @if (etiquetasFiltro.length > 0) {
+            Ninguna prenda tiene todas las etiquetas elegidas.
+          } @else {
+            Esta subcategoría todavía no tiene prendas.
+          }
+        </li>
+      }
+    </ul>
+  </section>
+ 
+  <!-- ===== Nueva prenda ===== -->
+  <details class="panel">
+    <summary>Nueva prenda</summary>
+ 
+    <form class="panel__cuerpo" [formGroup]="formularioPrenda" (ngSubmit)="crearPrenda()">
+      <div class="field">
+        <label for="prenda-nombre">Nombre</label>
+        <input
+          id="prenda-nombre"
+          type="text"
+          formControlName="nombrePrenda"
+          maxlength="100"
+          placeholder="Ej. Jean recto azul"
+        />
+        @if (
+          formularioPrenda.controls.nombrePrenda.touched &&
+          formularioPrenda.controls.nombrePrenda.invalid
+        ) {
+          <span class="field__error">Ingresá un nombre.</span>
+        }
+      </div>
+ 
+      <div class="field">
+        <label for="prenda-descripcion">Descripción</label>
+        <textarea
+          id="prenda-descripcion"
+          rows="3"
+          formControlName="descripcionPrenda"
+          maxlength="100"
+        ></textarea>
+        @if (
+          formularioPrenda.controls.descripcionPrenda.touched &&
+          formularioPrenda.controls.descripcionPrenda.invalid
+        ) {
+          <span class="field__error">Ingresá una descripción.</span>
+        }
+      </div>
+ 
+      <div class="campos">
+        <div class="field">
+          <label for="prenda-precio">Precio</label>
+          <input
+            id="prenda-precio"
+            type="number"
+            min="0"
+            step="0.01"
+            formControlName="precioPrenda"
+          />
+          @if (
+            formularioPrenda.controls.precioPrenda.touched &&
+            formularioPrenda.controls.precioPrenda.invalid
+          ) {
+            <span class="field__error">Ingresá un precio de 0 o más.</span>
+          }
+        </div>
+ 
+        <div class="field">
+          <label for="prenda-cantidad">Cantidad en stock</label>
+          <input
+            id="prenda-cantidad"
+            type="number"
+            min="0"
+            step="1"
+            formControlName="cantidad"
+          />
+          @if (
+            formularioPrenda.controls.cantidad.touched &&
+            formularioPrenda.controls.cantidad.invalid
+          ) {
+            <span class="field__error">Ingresá una cantidad de 0 o más.</span>
+          }
+        </div>
+      </div>
+ 
+      <label class="check">
+        <input type="checkbox" formControlName="prendaActiva" />
+        Prenda activa
+      </label>
+ 
+      <fieldset class="etiquetas">
+        <legend>Etiquetas</legend>
+ 
+        @if (etiquetasPermitidas.length === 0) {
+          <p class="estado">Esta subcategoría todavía no tiene etiquetas permitidas.</p>
+        } @else {
+          <div class="filtro">
+            @for (e of etiquetasPermitidas; track e.id) {
+              <button
+                type="button"
+                class="etiqueta"
+                [attr.aria-pressed]="formularioPrenda.controls.idEtiquetas.value.includes(e.id)"
+                (click)="alternarEtiquetaDePrenda(e.id)"
+              >
+                {{ e.nombreEtiqueta }}
+              </button>
+            }
+          </div>
+        }
+      </fieldset>
+ 
+      <button type="submit" class="gestion__boton">Agregar prenda</button>
+    </form>
+  </details>
+ 
+  @if (esAdmin) {
+    <!-- ===== Etiquetas de la subcategoría (admin) ===== -->
+    <details class="panel">
+      <summary>Etiquetas de la subcategoría</summary>
+ 
+      <div class="panel__cuerpo">
+        <h3>Permitidas</h3>
+        @if (etiquetasPermitidas.length === 0) {
+          <p class="estado">Todavía no hay etiquetas permitidas.</p>
+        } @else {
+          <p class="ayuda">
+            Al quitar una etiqueta, también se saca de todas las prendas de esta subcategoría.
+          </p>
+          <div class="tags">
+            @for (e of etiquetasPermitidas; track e.id) {
+              <span class="tag tag--quitable">
+                {{ e.nombreEtiqueta }}
+                <button
+                  type="button"
+                  class="tag__quitar"
+                  [attr.aria-label]="'Quitar la etiqueta ' + e.nombreEtiqueta + ' de la subcategoría'"
+                  (click)="quitarEtiqueta(e.id)"
+                >
+                  ×
+                </button>
+              </span>
+            }
+          </div>
+        }
+ 
+        <h3>Agregar</h3>
+        @if (etiquetasDisponibles.length === 0) {
+          <p class="estado">No hay más etiquetas para agregar.</p>
+        } @else {
+          <div class="filtro">
+            @for (e of etiquetasDisponibles; track e.id) {
+              <button
+                type="button"
+                class="etiqueta etiqueta--agregar"
+                (click)="agregarEtiquetas([e.id])"
+              >
+                + {{ e.nombreEtiqueta }}
+              </button>
+            }
+          </div>
+        }
+      </div>
+    </details>
+ 
+    <!-- ===== Administrar subcategoría (admin) ===== -->
+    @if (subCategoria; as sub) {
+      <details class="panel">
+        <summary>Administrar subcategoría</summary>
+ 
+        <div class="panel__cuerpo">
+          <div class="field">
+            <label for="subcat-nombre">Nombre</label>
+            <div class="gestion__fila">
+              <input
+                #nuevoNombre
+                id="subcat-nombre"
+                type="text"
+                [value]="sub.nombreSubCategoria"
+              />
+              <button
+                type="button"
+                class="gestion__boton"
+                [disabled]="!nuevoNombre.value.trim()"
+                (click)="renombrar({ nombre: nuevoNombre.value.trim(), version: sub.version })"
+              >
+                Guardar
+              </button>
+            </div>
+          </div>
+ 
+          <div class="zona-peligro">
+            <p>
+              Eliminar la subcategoría elimina también sus prendas. Si alguna tiene ventas,
+              no se puede.
+            </p>
+            <button
+              type="button"
+              class="gestion__boton gestion__boton--peligro"
+              (click)="eliminar()"
+            >
+              Eliminar subcategoría
+            </button>
+          </div>
+        </div>
+      </details>
+    }
+  }
+</main>

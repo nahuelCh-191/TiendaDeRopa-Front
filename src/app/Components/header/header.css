@@ -1,0 +1,236 @@
+:host {
+  display: block;
+  --ink: #1b2330;
+  --muted: #5b6575;
+  --denim: #2f4f7f;
+  --surface: #ffffff;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+ 
+/* Tres columnas: marca | buscador (centrado) | acciones */
+.barra {
+  display: grid;
+  grid-template-columns: 1fr minmax(0, 32rem) 1fr;
+  align-items: center;
+  gap: 1rem;
+  height: 3.5rem;
+  padding: 0 1.5rem;
+  color: #fff;
+  background-color: var(--denim);
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.05) 0 2px,
+    transparent 2px 7px
+  );
+}
+ 
+.barra__marca {
+  justify-self: start;
+  font-size: 1.1rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  color: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+}
+ 
+.barra__marca:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+ 
+/* ---------- Buscador: selector + campo, pegados como una sola pieza ---------- */
+ 
+.buscador {
+  display: flex;
+  min-width: 0;
+}
+ 
+.buscador__modo {
+  flex: none;
+  padding: 0.5rem 1.7rem 0.5rem 0.75rem;
+  font: inherit;
+  font-size: 0.9rem;
+  color: #fff;
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.12);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8' fill='none' stroke='white' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m1 1.5 5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.6rem center;
+  background-size: 0.7rem;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-right: 0;
+  border-radius: 8px 0 0 8px;
+  appearance: none;
+}
+ 
+.buscador__modo:hover {
+  background-color: rgba(255, 255, 255, 0.18);
+}
+ 
+.buscador__modo:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+ 
+/* La lista desplegable usa los colores del sistema: texto oscuro sobre blanco */
+.buscador__modo option {
+  color: var(--ink);
+  background: var(--surface);
+}
+ 
+.buscador__entrada {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+ 
+.buscador__icono {
+  position: absolute;
+  top: 50%;
+  left: 0.8rem;
+  color: rgba(255, 255, 255, 0.8);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+ 
+.buscador__entrada:focus-within .buscador__icono {
+  color: var(--muted);
+}
+ 
+.buscador__campo {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0.5rem 0.85rem 0.5rem 2.4rem;
+  font: inherit;
+  font-size: 0.95rem;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 0 8px 8px 0;
+  appearance: none;
+}
+ 
+.buscador__campo::placeholder {
+  color: rgba(255, 255, 255, 0.8);
+}
+ 
+/* Sin la cruz del buscador ni las flechitas del campo numérico */
+.buscador__campo::-webkit-search-cancel-button,
+.buscador__campo::-webkit-outer-spin-button,
+.buscador__campo::-webkit-inner-spin-button {
+  display: none;
+  appearance: none;
+  margin: 0;
+}
+ 
+.buscador__campo[type="number"] {
+  appearance: textfield;
+}
+ 
+/* Al escribir, el campo pasa a blanco para que se lea bien */
+.buscador__campo:focus-visible {
+  outline: none;
+  color: var(--ink);
+  background: var(--surface);
+  border-color: var(--surface);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.35);
+}
+ 
+.buscador__campo:focus-visible::placeholder {
+  color: var(--muted);
+}
+ 
+/* ---------- Acciones: opciones (solo admin) y salir ---------- */
+ 
+.barra__acciones {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+ 
+.barra__menu,
+.barra__salir {
+  padding: 0.5rem 0.85rem;
+  font: inherit;
+  font-size: 0.9rem;
+  color: #fff;
+  white-space: nowrap;
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 8px;
+}
+ 
+.barra__menu {
+  padding-right: 1.7rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8' fill='none' stroke='white' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m1 1.5 5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.6rem center;
+  background-size: 0.7rem;
+  appearance: none;
+}
+ 
+.barra__menu option {
+  color: var(--ink);
+  background: var(--surface);
+}
+ 
+.barra__menu:hover,
+.barra__salir:hover {
+  background-color: rgba(255, 255, 255, 0.18);
+}
+ 
+.barra__menu:focus-visible,
+.barra__salir:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+ 
+@media (prefers-reduced-motion: no-preference) {
+  .buscador__campo,
+  .buscador__modo,
+  .barra__menu,
+  .barra__salir {
+    transition: background-color 0.15s, box-shadow 0.15s, color 0.15s;
+  }
+}
+ 
+/* Celular: dos filas. Arriba marca y acciones, abajo el buscador a todo el ancho */
+@media (max-width: 640px) {
+  .barra {
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "marca acciones"
+      "buscador buscador";
+    gap: 0.6rem 0.75rem;
+    height: auto;
+    padding: 0.6rem 1rem;
+  }
+ 
+  .barra__marca {
+    grid-area: marca;
+    font-size: 1rem;
+  }
+ 
+  .barra__acciones {
+    grid-area: acciones;
+  }
+ 
+  .buscador {
+    grid-area: buscador;
+  }
+}
+ 
+@media (max-width: 480px) {
+  .barra__marca {
+    font-size: 0.95rem;
+  }
+ 
+  .buscador__modo {
+    padding-left: 0.6rem;
+    font-size: 0.85rem;
+  }
+}

@@ -1,0 +1,65 @@
+<main class="ventas">
+  <header class="ventas__head">
+    <h1>Ventas por mes</h1>
+    <p>Consultá el historial de ventas y sus totales mensuales.</p>
+  </header>
+
+  @if (mensajeError) {
+    <p class="aviso">{{ mensajeError }}</p>
+  }
+
+  <section class="formulario">
+    <div class="field">
+      <label for="meses">Cantidad de meses a consultar</label>
+      <input
+        id="meses"
+        type="number"
+        #numero
+        min="1"
+        max="120"
+        [value]="mesesElegidos"
+        (change)="buscarPorMes(numero.valueAsNumber)"
+        placeholder="Ingresá una cantidad de meses"
+      />
+      <span class="field__ayuda">
+        Podés consultar entre 1 y 120 meses.
+      </span>
+    </div>
+  </section>
+
+  <section class="seccion">
+    <h2>Historial de ventas</h2>
+
+    @if (listaTotales.length === 0) {
+      <p class="estado">No hay ventas para mostrar.</p>
+    } @else {
+      <ul class="ventas__lista">
+        @for (t of listaTotales; track $index) {
+
+          @if ($index === 0 || t.anio !== listaTotales[$index - 1].anio) {
+            <li class="separador-anio">
+              <span>{{ t.anio }}</span>
+              <div class="separador-anio__linea"></div>
+            </li>
+          }
+
+          <li class="venta">
+            <div class="venta__info">
+              <span class="venta__mes">
+                {{ t.mes }}/{{ t.anio }}
+              </span>
+              <span class="venta__cantidad">
+                Cantidad de ventas: {{ t.cantidad }}
+              </span>
+            </div>
+
+            <div class="venta__total">
+              <span>Total vendido</span>
+              <strong>${{ t.total }}</strong>
+            </div>
+          </li>
+        }
+      </ul>
+    }
+  </section>
+</main>

@@ -1,0 +1,68 @@
+<main class="venta">
+  <button type="button" class="enlace" (click)="volver()">‹ Volver</button>
+ 
+  @if (errorMensaje) {
+    <p class="aviso" role="alert">{{ errorMensaje }}</p>
+  }
+ 
+  @if (prendaVendida; as v) {
+    <header class="venta__head">
+      <h1>Venta #{{ v.id }}</h1>
+      <p>{{ v.fechaVenta }}</p>
+    </header>
+ 
+    <!-- ===== Datos de la venta ===== -->
+    <section class="ficha" aria-label="Datos de la venta">
+      <dl class="datos">
+        <div class="dato">
+          <dt>Prenda</dt>
+          <dd>{{ v.prenda.nombrePrenda }}</dd>
+        </div>
+ 
+        <div class="dato">
+          <dt>Vendedor</dt>
+          <dd>{{ v.vendedor.email }}</dd>
+        </div>
+ 
+        <div class="dato">
+          <dt>Fecha</dt>
+          <dd>{{ v.fechaVenta }}</dd>
+        </div>
+ 
+        <div class="dato">
+          <dt>Valor</dt>
+          <dd class="dato__valor">$ {{ v.valorVenta }}</dd>
+        </div>
+
+        <div class="dato">
+          <dt>Comprador</dt>
+          <dd>{{ v.nombreCliente}}</dd>
+        </div>
+      </dl>
+    </section>
+ 
+    <!-- ===== Eliminar la venta ===== -->
+    <details class="panel">
+      <summary>Administrar venta</summary>
+ 
+      <div class="panel__cuerpo">
+        <div class="zona-peligro">
+          <!-- Ajustar este texto si el back pasa a devolver la unidad al stock al eliminar -->
+          <p>
+            Eliminar la venta no se puede deshacer: los totales de ese día y de ese mes se
+            recalculan sin ella. El stock de la prenda no se modifica.
+          </p>
+          <button
+            type="button"
+            class="gestion__boton gestion__boton--peligro"
+            (click)="eliminarPrenda()"
+          >
+            Eliminar venta
+          </button>
+        </div>
+      </div>
+    </details>
+  } @else if (!errorMensaje) {
+    <p class="estado">Cargando venta…</p>
+  }
+</main>

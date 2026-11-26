@@ -1,0 +1,174 @@
+<main class="categorias">
+  <header class="categorias__head">
+    <h1>Categorías</h1>
+    <p>Elegí una categoría para ver sus subcategorías.</p>
+  </header>
+  @if (isAdmin) {
+    <section class="gestion">
+        <h2>Nueva categoría</h2>
+
+        <form [formGroup]="formNuevaCategoria" (ngSubmit)="crearCategoria()">
+        <label for="nombreCategoria">Nombre de la categoría</label>
+
+        <div class="gestion__fila">
+            <input
+            id="nombreCategoria"
+            type="text"
+            formControlName="nombre"
+            placeholder="Ej. Pantalones"
+            />
+
+            <button type="submit" class="gestion__boton">
+            Agregar
+            </button>
+        </div>
+
+        @if (
+            formNuevaCategoria.controls.nombre.touched &&
+            formNuevaCategoria.controls.nombre.invalid
+        ) {
+            <p class="gestion__error">Ingresá un nombre válido.</p>
+        }
+        </form>
+    </section>
+    }
+
+  <ul class="lista">
+    @for (cat of ListaCategoria; track cat.id) {
+      <li class="item" [class.item--abierto]="categoriaAbierta === cat.id">
+
+        @if (categoriaRenombrando === cat.id) {
+          <form
+            class="gestion gestion--renombrar"
+            [formGroup]="formRenombrar"
+            (ngSubmit)="guardarNombreCategoria(cat)"
+          >
+            <label [for]="'renombrar-' + cat.id">
+              Nuevo nombre
+            </label>
+
+            <div class="gestion__fila">
+              <input
+                [id]="'renombrar-' + cat.id"
+                type="text"
+                formControlName="nombre"
+              />
+
+              <button type="submit" class="gestion__boton">
+                Guardar
+              </button>
+
+              <button
+                type="button"
+                class="gestion__boton gestion__boton--secundario"
+                (click)="cancelarRenombrado()"
+              >
+                Cancelar
+              </button>
+            </div>
+          </form>
+        } @else {
+          <button
+            type="button"
+            class="item__cabecera"
+            [attr.aria-expanded]="categoriaAbierta === cat.id"
+            [attr.aria-controls]="'subs-' + cat.id"
+            (click)="alternarCategoria(cat.id)"
+          >
+            <span>{{ cat.nombreCategoria }}</span>
+            <span class="item__flecha" aria-hidden="true"></span>
+          </button>
+
+          @if (isAdmin) {
+            <div class="gestion__acciones">
+                <button
+                type="button"
+                class="gestion__boton gestion__boton--secundario"
+                (click)="iniciarRenombrado(cat)"
+                >
+                Renombrar
+                </button>
+
+                <button
+                type="button"
+                class="gestion__boton gestion__boton--peligro"
+                (click)="eliminarCategoria(cat.id)"
+                >
+                Eliminar
+                </button>
+            </div>
+          }
+        }
+
+        @if (categoriaAbierta === cat.id) {
+          <div class="subs" [id]="'subs-' + cat.id">
+
+            @if (estadoSubcategorias === 'cargando') {
+              <p class="subs__estado">Cargando subcategorías…</p>
+            } @else if (estadoSubcategorias === 'error') {
+              <p class="subs__estado subs__estado--error">
+                No se pudieron cargar las subcategorías.
+              </p>
+            } @else if (ListaSubcategorias.length === 0) {
+              <p class="subs__estado">
+                Esta categoría todavía no tiene subcategorías.
+              </p>
+            } @else {
+              <ul class="subs__lista">
+                @for (sub of ListaSubcategorias; track sub.id) {
+                  <li>
+                    <button
+                      type="button"
+                      class="sub"
+                      (click)="seleccionarSubCategoria(sub.id)"
+                    >
+                      {{ sub.nombreSubCategoria }}
+                    </button>
+                  </li>
+                }
+              </ul>
+            }
+
+            @if(isAdmin){
+                <form
+                class="gestion gestion--subcategoria"
+                [formGroup]="formNuevaSubcategoria"
+                (ngSubmit)="crearSubcategoria(cat.id)"
+                >
+                <label [for]="'nueva-sub-' + cat.id">
+                    Nueva subcategoría
+                </label>
+
+                <div class="gestion__fila">
+                    <input
+                    [id]="'nueva-sub-' + cat.id"
+                    type="text"
+                    formControlName="nombre"
+                    placeholder="Nombre de la subcategoría"
+                    />
+
+                    <button type="submit" class="gestion__boton">
+                    Agregar
+                    </button>
+                </div>
+
+                @if (
+                    formNuevaSubcategoria.controls.nombre.touched &&
+                    formNuevaSubcategoria.controls.nombre.invalid
+                ) {
+                    <p class="gestion__error">
+                    Ingresá un nombre válido.
+                    </p>
+                }
+                </form>
+            }
+          </div>
+        }
+      </li>
+    } @empty {
+      <li class="subs__estado">
+        No hay categorías cargadas.
+      </li>
+    }
+  </ul>
+</main>

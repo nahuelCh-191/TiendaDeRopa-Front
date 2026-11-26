@@ -1,0 +1,501 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  --ink: #1b2330;
+  --muted: #5b6575;
+  --denim: #2f4f7f;
+  --denim-dark: #263f66;
+  --paper: #f4f5f7;
+  --surface: #ffffff;
+  --line: #d3d8e0;
+  --hover: #eef2f8;
+  --danger: #b3261e;
+  --danger-bg: #fdecea;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+ 
+.detalle {
+  display: grid;
+  gap: 1.5rem;
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+ 
+.enlace {
+  justify-self: start;
+  padding: 0.25rem 0;
+  font: inherit;
+  color: var(--denim);
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+ 
+.enlace:hover {
+  text-decoration: underline;
+}
+ 
+.aviso {
+  margin: 0;
+  padding: 0.7rem 0.9rem;
+  font-size: 0.9rem;
+  color: var(--danger);
+  background: var(--danger-bg);
+  border-radius: 8px;
+}
+ 
+.aviso--info {
+  color: var(--denim);
+  background: var(--hover);
+}
+ 
+.estado {
+  margin: 0;
+  padding: 0.75rem 0;
+  color: var(--muted);
+}
+ 
+.ayuda {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+ 
+/* ---------- Encabezado ---------- */
+ 
+.detalle__head h1 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+ 
+.detalle__head p {
+  margin: 0.4rem 0 0;
+  color: var(--muted);
+}
+ 
+.insignia {
+  padding: 0.1rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: #fff;
+  background-color: var(--danger);
+  border-radius: 999px;
+}
+ 
+/* ---------- Ficha ---------- */
+ 
+.ficha {
+  display: grid;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+ 
+.ficha__fila {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+ 
+.ficha__precio {
+  font-size: 1.75rem;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+}
+ 
+.ficha__descripcion {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+ 
+.stock {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+ 
+.stock__cantidad {
+  font-weight: 600;
+}
+ 
+.stock__cantidad--agotado {
+  color: var(--danger);
+}
+ 
+.stock__ajuste {
+  display: flex;
+  gap: 0.4rem;
+}
+ 
+.stock__ajuste .gestion__boton {
+  min-width: 2.75rem;
+  padding: 0.45rem 0.8rem;
+}
+ 
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+ 
+.tag {
+  padding: 0.1rem 0.5rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+  background: var(--hover);
+  border-radius: 4px;
+}
+ 
+/* ---------- Secciones ---------- */
+ 
+.seccion {
+  display: grid;
+  gap: 1rem;
+}
+ 
+.seccion h2 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+ 
+.filtro {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+ 
+.etiqueta {
+  padding: 0.35rem 0.8rem;
+  font: inherit;
+  font-size: 0.875rem;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  cursor: pointer;
+}
+ 
+.etiqueta:hover {
+  background: var(--hover);
+}
+ 
+.etiqueta--agregar {
+  color: var(--denim);
+  border-style: dashed;
+}
+ 
+.etiqueta:focus-visible {
+  outline: 2px solid var(--denim);
+  outline-offset: 2px;
+}
+ 
+/* ---------- Paneles desplegables ---------- */
+ 
+.panel {
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+ 
+.panel[open] {
+  border-color: var(--denim);
+}
+ 
+.panel summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  font-weight: 600;
+  list-style: none;
+  cursor: pointer;
+}
+ 
+.panel summary::-webkit-details-marker {
+  display: none;
+}
+ 
+.panel summary:hover {
+  background: var(--hover);
+}
+ 
+.panel summary:focus-visible {
+  outline: 2px solid var(--denim);
+  outline-offset: -2px;
+}
+ 
+.panel[open] summary {
+  color: var(--denim);
+}
+ 
+.panel summary::after {
+  content: "";
+  flex: none;
+  width: 0.55rem;
+  height: 0.55rem;
+  margin-top: -0.25rem;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg);
+}
+ 
+.panel[open] summary::after {
+  margin-top: 0.25rem;
+  transform: rotate(-135deg);
+}
+ 
+.panel__cuerpo {
+  display: grid;
+  gap: 1rem;
+  padding: 1.25rem;
+  border-top: 1px solid var(--line);
+}
+ 
+.panel__cuerpo > .gestion__boton {
+  justify-self: start;
+}
+ 
+/* ---------- Formularios y botones ---------- */
+ 
+.field {
+  display: grid;
+  gap: 0.4rem;
+}
+ 
+.field label {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+ 
+.field input,
+.field textarea {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0.7rem 0.85rem;
+  font: inherit;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+ 
+.field textarea {
+  resize: vertical;
+}
+ 
+.field input::placeholder,
+.field textarea::placeholder {
+  color: #8b94a3;
+}
+ 
+.field input:focus-visible,
+.field textarea:focus-visible {
+  outline: none;
+  border-color: var(--denim);
+  box-shadow: 0 0 0 3px rgba(47, 79, 127, 0.22);
+}
+ 
+.field input.ng-touched.ng-invalid,
+.field textarea.ng-touched.ng-invalid {
+  border-color: var(--danger);
+}
+ 
+.field__error {
+  font-size: 0.825rem;
+  color: var(--danger);
+}
+ 
+.campos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+ 
+.check {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+ 
+.check input {
+  width: 1.05rem;
+  height: 1.05rem;
+  accent-color: var(--denim);
+}
+ 
+.gestion__fila {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+ 
+.gestion__fila input {
+  flex: 1 1 12rem;
+  width: auto;
+}
+ 
+.gestion__boton {
+  padding: 0.7rem 1.1rem;
+  font: inherit;
+  font-weight: 600;
+  color: #fff;
+  background: var(--denim);
+  border: 1px solid var(--denim);
+  border-radius: 8px;
+  cursor: pointer;
+}
+ 
+.gestion__boton:hover {
+  background: var(--denim-dark);
+  border-color: var(--denim-dark);
+}
+ 
+.gestion__boton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+ 
+.gestion__boton:focus-visible {
+  outline: 2px solid var(--denim);
+  outline-offset: 3px;
+}
+ 
+.gestion__boton--secundario {
+  color: var(--ink);
+  background: var(--surface);
+  border-color: var(--line);
+}
+ 
+.gestion__boton--secundario:hover {
+  background: var(--hover);
+  border-color: var(--line);
+}
+ 
+.gestion__boton--peligro {
+  color: var(--danger);
+  background: var(--surface);
+  border-color: var(--danger);
+}
+ 
+.gestion__boton--peligro:hover {
+  background: var(--danger-bg);
+  border-color: var(--danger);
+}
+ 
+.zona-peligro {
+  display: grid;
+  gap: 0.75rem;
+  justify-items: start;
+}
+ 
+.zona-peligro p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+ 
+/* ---------- Historial ---------- */
+ 
+.tabla {
+  overflow-x: auto;
+}
+ 
+.tabla table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+ 
+.tabla th,
+.tabla td {
+  padding: 0.6rem 0.75rem;
+  text-align: left;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--line);
+}
+ 
+.tabla th {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+ 
+.tabla .num {
+  text-align: right;
+}
+ 
+.tabla tbody tr:last-child td {
+  border-bottom: 0;
+}
+ 
+@media (prefers-reduced-motion: no-preference) {
+  .etiqueta,
+  .panel summary,
+  .field input,
+  .field textarea,
+  .gestion__boton {
+    transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s, color 0.15s;
+  }
+}
+ 
+@media (max-width: 560px) {
+  .campos {
+    grid-template-columns: 1fr;
+  }
+}
+ 
+/* ---------- Etiqueta con botón para quitarla (admin) ---------- */
+ 
+.tag--quitable {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+  padding-right: 0.15rem;
+}
+ 
+.tag__quitar {
+  display: inline-grid;
+  place-items: center;
+  width: 1.4rem;
+  height: 1.4rem;
+  padding: 0;
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1;
+  color: var(--muted);
+  background: none;
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+}
+ 
+.tag__quitar:hover {
+  color: var(--danger);
+  background: var(--danger-bg);
+}
+ 
+.tag__quitar:focus-visible {
+  outline: 2px solid var(--denim);
+  outline-offset: 1px;
+}

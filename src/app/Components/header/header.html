@@ -1,0 +1,65 @@
+<div class="barra">
+  <a class="barra__marca" routerLink="/categorias">Tienda de Ropa</a>
+ 
+  <div class="buscador" role="search">
+    <select
+      #modo
+      class="buscador__modo"
+      aria-label="Buscar por"
+      (change)="busqueda.value = ''"
+    >
+      <option value="nombre">Nombre</option>
+      <option value="precio">Precio mín.</option>
+    </select>
+ 
+    <div class="buscador__entrada">
+      <svg
+        class="buscador__icono"
+        viewBox="0 0 24 24"
+        width="18"
+        height="18"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <circle cx="11" cy="11" r="7" />
+        <path d="m20 20-3.5-3.5" />
+      </svg>
+ 
+      <input
+        #busqueda
+        class="buscador__campo"
+        [type]="modo.value === 'precio' ? 'number' : 'search'"
+        [placeholder]="modo.value === 'precio' ? 'Ej. 15000' : 'Ej. remera'"
+        [attr.aria-label]="modo.value === 'precio' ? 'Precio mínimo' : 'Nombre de la prenda'"
+        min="0"
+        enterkeyhint="search"
+        (keydown.enter)="buscar(modo.value, busqueda.value)"
+      />
+    </div>
+  </div>
+ 
+  <!-- Fuera del buscador: tiene su propio bloque a la derecha de la barra -->
+  <div class="barra__acciones">
+    @if (esAdmin) {
+      <select
+        #opciones
+        class="barra__menu"
+        aria-label="Opciones de administración"
+        (change)="irA(opciones.value); opciones.value = ''"
+      >
+        <option value="" selected disabled hidden>Opciones</option>
+        <option value="vendedores">Vendedores</option>
+        <option value="etiquetas">Etiquetas</option>
+        <option value="ventasPorMes">Resumen por Mes</option>
+      </select>
+    }
+ 
+    <button type="button" class="barra__salir" (click)="cerrarSecion()">
+      <i class="bi bi-box-arrow-right" aria-hidden="true"></i> Salir
+    </button>
+  </div>
+</div>

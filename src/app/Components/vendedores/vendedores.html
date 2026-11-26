@@ -1,0 +1,144 @@
+<main class="vendedores">
+  <header class="vendedores__head">
+    <h1>Vendedores</h1>
+    <p>Creá cuentas, cambiá su rol o dalas de baja.</p>
+  </header>
+ 
+  @if (mensajeError) {
+    <p class="aviso" role="alert">{{ mensajeError }}</p>
+  }
+ 
+  @if (mensajeInfo) {
+    <p class="aviso aviso--info" role="status">{{ mensajeInfo }}</p>
+  }
+ 
+  <!-- ===== Formulario: crear o editar ===== -->
+  <section
+    #formulario
+    class="formulario"
+    [class.formulario--editando]="editandoId !== null"
+    aria-labelledby="titulo-form"
+  >
+    <h2 id="titulo-form">
+      {{ editandoId === null ? 'Nuevo vendedor' : 'Editar vendedor' }}
+    </h2>
+ 
+    <form class="formulario__cuerpo" [formGroup]="formVemdedor" (ngSubmit)="guardar()">
+      <div class="campos">
+        <div class="field">
+          <label for="vend-email">Email</label>
+          <input
+            id="vend-email"
+            type="email"
+            formControlName="email"
+            maxlength="100"
+            autocomplete="off"
+            placeholder="nombre@tienda.com"
+          />
+          @if (formVemdedor.controls.email.touched && formVemdedor.controls.email.invalid) {
+            <span class="field__error">Ingresá un email.</span>
+          }
+        </div>
+ 
+        <div class="field">
+          <label for="vend-tipo">Rol</label>
+          <select id="vend-tipo" formControlName="tipoVendedor">
+            <option value="EMPLEADO">Empleado</option>
+            <option value="ADMINISTRADOR">Administrador</option>
+          </select>
+        </div>
+      </div>
+ 
+      <div class="field">
+        <label for="vend-contrasenia">
+          {{ editandoId === null ? 'Contraseña' : 'Nueva contraseña' }}
+        </label>
+        <input
+          id="vend-contrasenia"
+          type="password"
+          formControlName="contrasenia"
+          maxlength="100"
+          autocomplete="new-password"
+        />
+        @if (editandoId !== null) {
+          <span class="field__ayuda">Dejala vacía para no cambiarla.</span>
+        }
+        @if (
+          formVemdedor.controls.contrasenia.touched && formVemdedor.controls.contrasenia.invalid
+        ) {
+          <span class="field__error">Ingresá una contraseña.</span>
+        }
+      </div>
+ 
+      <div class="formulario__acciones">
+        <button type="submit" class="gestion__boton">
+          {{ editandoId === null ? 'Crear vendedor' : 'Guardar cambios' }}
+        </button>
+ 
+        @if (editandoId !== null) {
+          <button
+            type="button"
+            class="gestion__boton gestion__boton--secundario"
+            (click)="nuevoVendedor()"
+          >
+            Cancelar
+          </button>
+        }
+      </div>
+    </form>
+  </section>
+ 
+  <!-- ===== Lista de cuentas ===== -->
+  <section class="seccion" aria-labelledby="titulo-lista">
+    <h2 id="titulo-lista">Cuentas ({{ vendedores.length }})</h2>
+ 
+    <ul class="vendedores__lista">
+      @for (v of vendedores; track v.id) {
+        <li class="vendedor" [class.vendedor--editando]="editandoId === v.id">
+          <div class="vendedor__info">
+            <span class="vendedor__email">{{ v.email }}</span>
+ 
+            <span class="vendedor__marcas">
+              <span class="rol" [class.rol--admin]="v.tipoVendedor === 'ADMINISTRADOR'">
+                {{ v.tipoVendedor === 'ADMINISTRADOR' ? 'Administrador' : 'Empleado' }}
+              </span>
+              @if (v.email === email) {
+                <span class="vos">Tu cuenta</span>
+              }
+            </span>
+          </div>
+ 
+          <div class="vendedor__acciones">
+            <button
+              type="button"
+              class="gestion__boton gestion__boton--secundario gestion__boton--chico"
+              (click)="seleccionarvendedor(v.id)"
+            >
+              Ver detalle
+            </button>
+ 
+            <button
+              type="button"
+              class="gestion__boton gestion__boton--secundario gestion__boton--chico"
+              (click)="seleccionarVendedor(v); formulario.scrollIntoView()"
+            >
+              Editar
+            </button>
+ 
+            <button
+              type="button"
+              class="gestion__boton gestion__boton--peligro gestion__boton--chico"
+              [disabled]="v.email === email"
+              [attr.title]="v.email === email ? 'No podés eliminar tu propia cuenta' : null"
+              (click)="eliminarVendedor(v.id)"
+            >
+              Eliminar
+            </button>
+          </div>
+        </li>
+      } @empty {
+        <li class="estado">Todavía no hay vendedores cargados.</li>
+      }
+    </ul>
+  </section>
+</main>

@@ -1,0 +1,117 @@
+<main class="vendedor">
+  <button type="button" class="enlace" (click)="volver()">‹ Vendedores</button>
+ 
+  @if (errorMensaje) {
+    <p class="aviso" role="alert">{{ errorMensaje }}</p>
+  }
+ 
+  @if (vendedor; as v) {
+    <header class="vendedor__head">
+      <h1>{{ v.email }}</h1>
+      <p>{{ v.tipoVendedor === 'ADMINISTRADOR' ? 'Administrador' : 'Empleado' }}</p>
+    </header>
+  }
+ 
+  <!-- ===== Resumen: tres tarjetas ===== -->
+  <section class="tarjetas" aria-label="Resumen de ventas">
+    <article class="tarjeta" [class.tarjeta--activa]="periodo === 'hoy'">
+      <h2>Hoy</h2>
+      <p class="tarjeta__total">$ {{ totalRecaudadoVendedorHoy }}</p>
+      <p class="tarjeta__detalle">
+        {{ prendaHoyVendedor.length === 1 ? '1 venta' : prendaHoyVendedor.length + ' ventas' }}
+      </p>
+    </article>
+ 
+    <article class="tarjeta" [class.tarjeta--activa]="periodo === 'mes'">
+      <h2>Este mes</h2>
+      <p class="tarjeta__total">$ {{ totalRecaudadoVendedorMes }}</p>
+      <p class="tarjeta__detalle">
+        {{ prendaMesVendedor.length === 1 ? '1 venta' : prendaMesVendedor.length + ' ventas' }}
+      </p>
+ 
+      @let variacion = variacionMes;
+      @if (variacion !== null) {
+        <p class="tarjeta__detalle">
+          {{ variacion >= 0 ? variacion.toFixed(0) + '% más' : (-variacion).toFixed(0) + '% menos' }}
+          que todo el mes pasado
+        </p>
+      }
+    </article>
+ 
+    <article class="tarjeta" [class.tarjeta--activa]="periodo === 'mesPasado'">
+      <h2>Mes pasado</h2>
+      <p class="tarjeta__total">$ {{ totalRecaudadoVendedorMesPasado }}</p>
+      <p class="tarjeta__detalle">
+        {{
+          prendaMesPasadoVendedor.length === 1
+            ? '1 venta'
+            : prendaMesPasadoVendedor.length + ' ventas'
+        }}
+      </p>
+    </article>
+  </section>
+ 
+  <!-- ===== Ventas del período ===== -->
+  <section class="seccion" aria-labelledby="titulo-ventas">
+    <div class="seccion__cabecera">
+      <h2 id="titulo-ventas">Ventas</h2>
+ 
+      <div class="segmentos" role="group" aria-label="Período">
+        <button type="button" [attr.aria-pressed]="periodo === 'hoy'" (click)="periodo = 'hoy'">
+          Hoy
+        </button>
+        <button type="button" [attr.aria-pressed]="periodo === 'mes'" (click)="periodo = 'mes'">
+          Este mes
+        </button>
+        <button
+          type="button"
+          [attr.aria-pressed]="periodo === 'mesPasado'"
+          (click)="periodo = 'mesPasado'"
+        >
+          Mes pasado
+        </button>
+      </div>
+    </div>
+ 
+    @if (ventasDelPeriodo.length === 0) {
+      <p class="estado">Este vendedor no tiene ventas en este período.</p>
+    } @else {
+      <div class="tabla">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Fecha</th>
+              <th scope="col">Prenda</th>
+              <th scope="col" class="num">Valor</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (venta of ventasDelPeriodo; track venta.id) {
+              <tr>
+                <td>{{ venta.fechaVenta }}</td>
+                <td>
+                  <button
+                    type="button"
+                    class="enlace-fila"
+                    (click)="seleccionarPrenda(venta.id)"
+                  >
+                    {{ venta.prenda.nombrePrenda }}
+                  </button>
+                </td>
+                <td class="num">$ {{ venta.valorVenta }}</td>
+              </tr>
+            }
+          </tbody>
+          <tfoot>
+            <tr>
+              <th scope="row" colspan="2">Total del período ({{ ventasDelPeriodo.length }})</th>
+              <td class="num">$ {{ totalDelPeriodo }}</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+ 
+      <p class="ayuda">Tocá el nombre de una prenda para ver el detalle de esa venta.</p>
+    }
+  </section>
+</main>

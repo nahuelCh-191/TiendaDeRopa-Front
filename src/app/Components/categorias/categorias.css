@@ -1,0 +1,259 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  --ink: #1b2330;
+  --muted: #5b6575;
+  --denim: #2f4f7f;
+  --paper: #f4f5f7;
+  --surface: #ffffff;
+  --line: #d3d8e0;
+  --hover: #eef2f8;
+  --danger: #b3261e;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+ 
+.categorias {
+  max-width: 44rem;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
+}
+ 
+.categorias__head h1 {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+ 
+.categorias__head p {
+  margin: 0.4rem 0 0;
+  color: var(--muted);
+}
+ 
+.lista {
+  display: grid;
+  gap: 0.75rem;
+  margin: 1.75rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+ 
+.item {
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+ 
+.item--abierto {
+  border-color: var(--denim);
+}
+ 
+.item__cabecera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  padding: 1rem 1.25rem;
+  font: inherit;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: inherit;
+  text-align: left;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+ 
+.item__cabecera:hover {
+  background: var(--hover);
+}
+ 
+.item__cabecera:focus-visible,
+.sub:focus-visible {
+  outline: 2px solid var(--denim);
+  outline-offset: -2px;
+}
+ 
+.item--abierto .item__cabecera {
+  color: var(--denim);
+}
+ 
+/* Flecha hecha con dos bordes: apunta abajo cerrada y arriba abierta */
+.item__flecha {
+  flex: none;
+  width: 0.55rem;
+  height: 0.55rem;
+  margin-top: -0.25rem;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg);
+}
+ 
+.item--abierto .item__flecha {
+  margin-top: 0.25rem;
+  transform: rotate(-135deg);
+}
+ 
+.subs {
+  padding: 0.5rem;
+  border-top: 1px solid var(--line);
+}
+ 
+.subs__estado {
+  margin: 0;
+  padding: 0.75rem;
+  color: var(--muted);
+}
+ 
+.subs__estado--error {
+  color: var(--danger);
+}
+ 
+.subs__lista {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+ 
+.sub {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.7rem 0.75rem;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  background: none;
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+}
+ 
+.sub::after {
+  content: "›";
+  font-size: 1.25rem;
+  line-height: 1;
+  color: var(--muted);
+}
+ 
+.sub:hover {
+  background: var(--hover);
+}
+ 
+@media (prefers-reduced-motion: no-preference) {
+  .item,
+  .item__cabecera,
+  .item__flecha,
+  .sub {
+    transition: background-color 0.15s, border-color 0.15s, transform 0.15s, color 0.15s;
+  }
+}
+
+.gestion {
+  display: grid;
+  gap: 0.6rem;
+  padding: 1rem 1.25rem;
+}
+
+.gestion h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.gestion label {
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.gestion__fila {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.gestion input {
+  box-sizing: border-box;
+  min-width: 0;
+  flex: 1;
+  padding: 0.65rem 0.75rem;
+  font: inherit;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+
+.gestion input:focus-visible {
+  outline: 2px solid var(--denim);
+  outline-offset: 1px;
+}
+
+.gestion__boton {
+  padding: 0.65rem 0.85rem;
+  font: inherit;
+  font-weight: 600;
+  color: white;
+  background: var(--denim);
+  border: 1px solid var(--denim);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.gestion__boton:hover {
+  filter: brightness(1.1);
+}
+
+.gestion__boton--secundario {
+  color: var(--ink);
+  background: var(--surface);
+  border-color: var(--line);
+}
+
+.gestion__boton--peligro {
+  color: var(--danger);
+  background: var(--surface);
+  border-color: var(--danger);
+}
+
+.gestion__acciones {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0 1.25rem 0.75rem;
+}
+
+.gestion--renombrar {
+  padding: 1rem;
+}
+
+.gestion--subcategoria {
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  background: var(--paper);
+  border-radius: 6px;
+}
+
+.gestion__error {
+  margin: 0;
+  color: var(--danger);
+  font-size: 0.875rem;
+}
+
+@media (max-width: 480px) {
+  .gestion__fila {
+    flex-direction: column;
+  }
+
+  .gestion__boton {
+    width: 100%;
+  }
+}

@@ -1,0 +1,48 @@
+<main class="login">
+  <section class="login__brand">
+    <p class="brand__name">Tienda de Ropa</p>
+    <p class="brand__tagline">Gestión de ventas y catálogo</p>
+  </section>
+
+  <section class="login__panel">
+    <form class="form" [formGroup]="form" (ngSubmit)="Login()">
+      <header class="form__head">
+        <h1>Iniciar sesión</h1>
+        <p>Ingresá con tu cuenta de vendedor.</p>
+      </header>
+
+      @if (mensajeError) {
+        <p class="form__error" role="alert">{{ mensajeError }}</p>
+      }
+
+      <div class="field">
+        <label for="correo">Email</label>
+        <input
+          id="correo"
+          type="email"
+          formControlName="correo"
+          autocomplete="username"
+          placeholder="nombre@tienda.com"
+        />
+        @if (form.controls.correo.touched && form.controls.correo.invalid) {
+          <span class="field__error">Ingresá tu email.</span>
+        }
+      </div>
+
+      <div class="field">
+        <label for="password">Contraseña</label>
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          autocomplete="current-password"
+        />
+        @if (form.controls.password.touched && form.controls.password.invalid) {
+          <span class="field__error">Ingresá tu contraseña.</span>
+        }
+      </div>
+
+      <button type="submit" class="btn">Iniciar sesión</button>
+    </form>
+  </section>
+</main>

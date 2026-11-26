@@ -1,0 +1,166 @@
+<main class="etiquetas">
+  <header class="etiquetas__head">
+    <h1>Etiquetas</h1>
+    <p>
+      Después de crear una etiqueta, agregala a las subcategorías donde corresponda para poder
+      usarla en las prendas.
+    </p>
+  </header>
+ 
+  @if (errorMensaje) {
+    <p class="aviso" role="alert">{{ errorMensaje }}</p>
+  }
+ 
+  <!-- ===== Nueva etiqueta ===== -->
+  <section class="formulario" aria-labelledby="titulo-nueva">
+    <h2 id="titulo-nueva">Nueva etiqueta</h2>
+ 
+    <div class="field">
+      <label for="etiqueta-nombre">Nombre</label>
+      <div class="gestion__fila">
+        <input
+          #nuevo
+          id="etiqueta-nombre"
+          type="text"
+          maxlength="100"
+          placeholder="Ej. Manga larga"
+          (keydown.enter)="agregarEtiqueta(nuevo.value); nuevo.value = ''"
+        />
+        <button
+          type="button"
+          class="gestion__boton"
+          (click)="agregarEtiqueta(nuevo.value); nuevo.value = ''"
+        >
+          Agregar
+        </button>
+      </div>
+    </div>
+  </section>
+ 
+  <!-- ===== Lista ===== -->
+  <section class="seccion" aria-labelledby="titulo-lista">
+    <h2 id="titulo-lista">Etiquetas ({{ etiquetas.length }})</h2>
+
+    <input type="text" class="busqueda__campo" placeholder="Buscar por nombre"
+    aria-label="Buscar etiqueta por nombre" [(ngModel)]="textoBusqueda" (input)="filtrarPorNombre()">
+
+    <button type="button" class="gestion__boton gestion__boton--secundario" (click)="dejarFiltrar()">Cancelar</button>
+ 
+    @if (!filtrado) {
+      <ul class="lista">
+        @for (e of etiquetas; track e.id) {
+          <li class="fila" [class.fila--editando]="id === e.id">
+            @if (id === e.id) {
+              <form
+                class="fila__edicion"
+                [formGroup]="renombrarFormulario"
+                (ngSubmit)="modificarEtiqueta()"
+              >
+                <div class="gestion__fila">
+                  <input
+                    type="text"
+                    formControlName="nombre"
+                    maxlength="100"
+                    aria-label="Nuevo nombre de la etiqueta"
+                  />
+                  <button type="submit" class="gestion__boton gestion__boton--chico">Guardar</button>
+                  <button
+                    type="button"
+                    class="gestion__boton gestion__boton--secundario gestion__boton--chico"
+                    (click)="cancelarEdicion()"
+                  >
+                    Cancelar
+                  </button>
+                </div>
+  
+                @if (
+                  renombrarFormulario.controls.nombre.touched &&
+                  renombrarFormulario.controls.nombre.invalid
+                ) {
+                  <span class="field__error">Ingresá un nombre.</span>
+                }
+              </form>
+            } @else {
+              <span class="fila__nombre">{{ e.nombreEtiqueta }}</span>
+  
+              <div class="fila__acciones">
+                <button
+                  type="button"
+                  class="gestion__boton gestion__boton--secundario gestion__boton--chico"
+                  (click)="seleccionarEtiqueta(e)"
+                >
+                  Renombrar
+                </button>
+                <button
+                  type="button"
+                  class="gestion__boton gestion__boton--peligro gestion__boton--chico"
+                  (click)="eliminarEtiqueta(e.id)"
+                >
+                  Eliminar
+                </button>
+              </div>
+            }
+          </li>
+        } @empty {
+          <li class="estado">Todavía no hay etiquetas cargadas.</li>
+        }
+      </ul>
+    }@else {
+      @for (e of etiquetasFiltradas; track e.id) {
+          <li class="fila" [class.fila--editando]="id === e.id">
+            @if (id === e.id) {
+              <form
+                class="fila__edicion"
+                [formGroup]="renombrarFormulario"
+                (ngSubmit)="modificarEtiqueta()"
+              >
+                <div class="gestion__fila">
+                  <input
+                    type="text"
+                    formControlName="nombre"
+                    maxlength="100"
+                    aria-label="Nuevo nombre de la etiqueta"
+                  />
+                  <button type="submit" class="gestion__boton gestion__boton--chico">Guardar</button>
+                  <button
+                    type="button"
+                    class="gestion__boton gestion__boton--secundario gestion__boton--chico"
+                    (click)="cancelarEdicion()"
+                  >
+                    Cancelar
+                  </button>
+                </div>
+  
+                @if (
+                  renombrarFormulario.controls.nombre.touched &&
+                  renombrarFormulario.controls.nombre.invalid
+                ) {
+                  <span class="field__error">Ingresá un nombre.</span>
+                }
+              </form>
+            } @else {
+              <span class="fila__nombre">{{ e.nombreEtiqueta }}</span>
+  
+              <div class="fila__acciones">
+                <button
+                  type="button"
+                  class="gestion__boton gestion__boton--secundario gestion__boton--chico"
+                  (click)="seleccionarEtiqueta(e)"
+                >
+                  Renombrar
+                </button>
+                <button
+                  type="button"
+                  class="gestion__boton gestion__boton--peligro gestion__boton--chico"
+                  (click)="eliminarEtiqueta(e.id)"
+                >
+                  Eliminar
+                </button>
+              </div>
+            }
+          </li>
+      }
+    }
+    
+  </section>
+</main>

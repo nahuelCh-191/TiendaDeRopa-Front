@@ -1,0 +1,9 @@
+@if (!isLoginRoute) {
+  <header>
+    <app-header></app-header>
+  </header>
+}
+
+<main [class.content]="!isLoginRoute" [class.login-background]="isLoginRoute">
+  <router-outlet></router-outlet>
+</main>

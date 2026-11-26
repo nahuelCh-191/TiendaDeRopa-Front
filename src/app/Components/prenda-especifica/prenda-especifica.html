@@ -1,0 +1,276 @@
+<main class="detalle">
+  @if (prenda; as p) {
+    <button type="button" class="enlace" (click)="irASubCategoria()">
+      ‹ {{ p.subCategoria.nombreSubCategoria }}
+    </button>
+  }
+ 
+  @if (mensajeError) {
+    <p class="aviso" role="alert">{{ mensajeError }}</p>
+  }
+ 
+  @if (mensajeInfo) {
+    <p class="aviso aviso--info" role="status">{{ mensajeInfo }}</p>
+  }
+ 
+  @if (prenda; as p) {
+    <!-- ===== Encabezado ===== -->
+    <header class="detalle__head">
+      <h1>
+        {{ p.nombrePrenda }}
+        @if (!p.prendaActiva) {
+          <span class="insignia">Inactiva</span>
+        }
+      </h1>
+      <p>{{ p.subCategoria.categoria.nombreCategoria }} › {{ p.subCategoria.nombreSubCategoria }}</p>
+    </header>
+ 
+    <!-- ===== Ficha: precio, stock, descripción y etiquetas ===== -->
+    <section class="ficha" aria-label="Datos de la prenda">
+      <div class="ficha__fila">
+        <span class="ficha__precio">$ {{ p.precioPrenda }}</span>
+ 
+        <div class="stock">
+          <span class="stock__cantidad" [class.stock__cantidad--agotado]="p.cantidad === 0">
+            {{ p.cantidad === 0 ? 'Sin stock' : 'Stock: ' + p.cantidad }}
+          </span>
+          @if (isAdmin) {
+            <div class="stock__ajuste" role="group" aria-label="Ajustar stock">
+              <button
+                type="button"
+                class="gestion__boton gestion__boton--secundario"
+                aria-label="Restar una unidad"
+                [disabled]="p.cantidad === 0"
+                (click)="sumarCantidadPrendas(-1)"
+              >
+                −1
+              </button>
+              <button
+                type="button"
+                class="gestion__boton gestion__boton--secundario"
+                aria-label="Sumar una unidad"
+                (click)="sumarCantidadPrendas(1)"
+              >
+                +1
+              </button>
+            </div>
+          }
+        </div>
+      </div>
+ 
+      <p class="ficha__descripcion">{{ p.descripcionPrenda }}</p>
+ 
+      @if (p.listaEtiquetasPrenda.length > 0) {
+        <div class="tags">
+          @for (e of p.listaEtiquetasPrenda; track e.id) {
+            @if (isAdmin) {
+              <span class="tag tag--quitable">
+                {{ e.nombreEtiqueta }}
+                <button
+                  type="button"
+                  class="tag__quitar"
+                  [attr.aria-label]="'Quitar la etiqueta ' + e.nombreEtiqueta"
+                  (click)="quitarEtiqueta(e.id)"
+                >
+                  ×
+                </button>
+              </span>
+            } @else {
+              <span class="tag">{{ e.nombreEtiqueta }}</span>
+            }
+          }
+        </div>
+      }
+    </section>
+ 
+    <!-- ===== Venta ===== -->
+    <section class="seccion" aria-labelledby="titulo-venta">
+      <h2 id="titulo-venta">Registrar venta</h2>
+ 
+      @if (!p.prendaActiva) {
+        <p class="estado">Esta prenda está inactiva: no se puede vender.</p>
+      } @else if (p.cantidad === 0) {
+        <p class="estado">No hay stock para vender.</p>
+      } @else {
+        <div class="field">
+          <label for="venta-cliente">Nombre del cliente</label>
+          <div class="gestion__fila">
+            <input
+              #cliente
+              id="venta-cliente"
+              type="text"
+              placeholder="Ej. Ana Pérez"
+              (keydown.enter)="venderPrenda(cliente.value)"
+            />
+            <button type="button" class="gestion__boton" (click)="venderPrenda(cliente.value)">
+              Vender
+            </button>
+          </div>
+        </div>
+      }
+    </section>
+ 
+    @if (isAdmin) {
+  <!-- ===== Modificar datos ===== -->
+      <details class="panel">
+        <summary>Modificar datos</summary>
+  
+        <form class="panel__cuerpo" [formGroup]="formularioPrenda" (ngSubmit)="modificarPrenda()">
+          <div class="field">
+            <label for="prenda-nombre">Nombre</label>
+            <input id="prenda-nombre" type="text" formControlName="nombrePrenda" maxlength="100" />
+            @if (
+              formularioPrenda.controls.nombrePrenda.touched &&
+              formularioPrenda.controls.nombrePrenda.invalid
+            ) {
+              <span class="field__error">Ingresá un nombre.</span>
+            }
+          </div>
+  
+          <div class="field">
+            <label for="prenda-descripcion">Descripción</label>
+            <textarea
+              id="prenda-descripcion"
+              rows="3"
+              formControlName="descripcionPrenda"
+              maxlength="100"
+            ></textarea>
+            @if (
+              formularioPrenda.controls.descripcionPrenda.touched &&
+              formularioPrenda.controls.descripcionPrenda.invalid
+            ) {
+              <span class="field__error">Ingresá una descripción.</span>
+            }
+          </div>
+  
+          <div class="campos">
+            <div class="field">
+              <label for="prenda-precio">Precio</label>
+              <input
+                id="prenda-precio"
+                type="number"
+                min="0"
+                step="0.01"
+                formControlName="precioPrenda"
+              />
+              @if (
+                formularioPrenda.controls.precioPrenda.touched &&
+                formularioPrenda.controls.precioPrenda.invalid
+              ) {
+                <span class="field__error">Ingresá un precio de 0 o más.</span>
+              }
+            </div>
+  
+            <div class="field">
+              <label for="prenda-cantidad">Cantidad en stock</label>
+              <input
+                id="prenda-cantidad"
+                type="number"
+                min="0"
+                step="1"
+                formControlName="cantidad"
+              />
+              @if (
+                formularioPrenda.controls.cantidad.touched &&
+                formularioPrenda.controls.cantidad.invalid
+              ) {
+                <span class="field__error">Ingresá una cantidad de 0 o más.</span>
+              }
+            </div>
+          </div>
+  
+          <label class="check">
+            <input type="checkbox" formControlName="prendaActiva" />
+            Prenda activa
+          </label>
+  
+          <button type="submit" class="gestion__boton">Guardar cambios</button>
+        </form>
+      </details>
+  
+      <!-- ===== Etiquetas ===== -->
+      <details class="panel">
+        <summary>Agregar etiquetas</summary>
+  
+        <div class="panel__cuerpo">
+          @if (etiquetasDisponibles.length === 0) {
+            <p class="estado">
+              No hay más etiquetas para agregar. Las opciones son las permitidas en la subcategoría.
+            </p>
+          } @else {
+            <p class="ayuda">Tocá una etiqueta para agregarla a la prenda.</p>
+            <div class="filtro">
+              @for (e of etiquetasDisponibles; track e.id) {
+                <button
+                  type="button"
+                  class="etiqueta etiqueta--agregar"
+                  (click)="agregarEtiquetas([e.id])"
+                >
+                  + {{ e.nombreEtiqueta }}
+                </button>
+              }
+            </div>
+          }
+        </div>
+      </details>
+    }
+    
+ 
+    @if (isAdmin) {
+      <!-- ===== Historial de ventas (admin) ===== -->
+      <details class="panel">
+        <summary>Historial de ventas ({{ ventas.length }})</summary>
+ 
+        <div class="panel__cuerpo">
+          @if (ventas.length === 0) {
+            <p class="estado">Esta prenda todavía no se vendió.</p>
+          } @else {
+            <div class="tabla">
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Vendedor</th>
+                    <th scope="col" class="num">Valor</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (v of ventas; track v.id) {
+                    <tr>
+                      <td>{{ v.fechaVenta }}</td>
+                      <td>{{ v.vendedor.email }}</td>
+                      <td class="num">$ {{ v.valorVenta }}</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          }
+        </div>
+      </details>
+ 
+      <!-- ===== Administrar (admin) ===== -->
+      <details class="panel">
+        <summary>Administrar prenda</summary>
+ 
+        <div class="panel__cuerpo">
+          <div class="zona-peligro">
+            <p>
+              Si la prenda tiene ventas, no se elimina: se desactiva y deja de aparecer entre las
+              activas.
+            </p>
+            <button
+              type="button"
+              class="gestion__boton gestion__boton--peligro"
+              (click)="eliminar()"
+            >
+              Eliminar prenda
+            </button>
+          </div>
+        </div>
+      </details>
+    }
+  } @else if (!mensajeError) {
+    <p class="estado">Cargando prenda…</p>
+  }
+</main>

@@ -1,0 +1,259 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  --ink: #1b2330;
+  --muted: #5b6575;
+  --denim: #2f4f7f;
+  --denim-dark: #263f66;
+  --paper: #f4f5f7;
+  --surface: #ffffff;
+  --line: #d3d8e0;
+  --hover: #eef2f8;
+  --danger: #b3261e;
+  --danger-bg: #fdecea;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+ 
+.etiquetas {
+  display: grid;
+  gap: 1.5rem;
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+ 
+.etiquetas__head h1 {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+ 
+.etiquetas__head p {
+  margin: 0.4rem 0 0;
+  color: var(--muted);
+}
+ 
+.aviso {
+  margin: 0;
+  padding: 0.7rem 0.9rem;
+  font-size: 0.9rem;
+  color: var(--danger);
+  background: var(--danger-bg);
+  border-radius: 8px;
+}
+ 
+.estado {
+  margin: 0;
+  padding: 0.75rem 0;
+  color: var(--muted);
+}
+ 
+/* ---------- Nueva etiqueta ---------- */
+ 
+.formulario {
+  display: grid;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+ 
+.formulario h2,
+.seccion h2 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+ 
+.field {
+  display: grid;
+  gap: 0.4rem;
+}
+ 
+.field label {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+ 
+.field__error {
+  font-size: 0.825rem;
+  color: var(--danger);
+}
+ 
+.gestion__fila {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+ 
+.gestion__fila input {
+  box-sizing: border-box;
+  flex: 1 1 12rem;
+  padding: 0.7rem 0.85rem;
+  font: inherit;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+ 
+.gestion__fila input::placeholder {
+  color: #8b94a3;
+}
+ 
+.gestion__fila input:focus-visible {
+  outline: none;
+  border-color: var(--denim);
+  box-shadow: 0 0 0 3px rgba(47, 79, 127, 0.22);
+}
+ 
+.gestion__fila input.ng-touched.ng-invalid {
+  border-color: var(--danger);
+}
+ 
+/* ---------- Botones ---------- */
+ 
+.gestion__boton {
+  padding: 0.7rem 1.1rem;
+  font: inherit;
+  font-weight: 600;
+  color: #fff;
+  background: var(--denim);
+  border: 1px solid var(--denim);
+  border-radius: 8px;
+  cursor: pointer;
+}
+ 
+.gestion__boton:hover {
+  background: var(--denim-dark);
+  border-color: var(--denim-dark);
+}
+ 
+.gestion__boton:focus-visible {
+  outline: 2px solid var(--denim);
+  outline-offset: 3px;
+}
+ 
+.gestion__boton--secundario {
+  color: var(--ink);
+  background: var(--surface);
+  border-color: var(--line);
+}
+ 
+.gestion__boton--secundario:hover {
+  background: var(--hover);
+  border-color: var(--line);
+}
+ 
+.gestion__boton--peligro {
+  color: var(--danger);
+  background: var(--surface);
+  border-color: var(--danger);
+}
+ 
+.gestion__boton--peligro:hover {
+  background: var(--danger-bg);
+  border-color: var(--danger);
+}
+ 
+.gestion__boton--chico {
+  padding: 0.45rem 0.8rem;
+  font-size: 0.9rem;
+}
+ 
+/* ---------- Lista ---------- */
+ 
+.seccion {
+  display: grid;
+  gap: 1rem;
+}
+ 
+.lista {
+  display: grid;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+ 
+.fila {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
+  padding: 0.8rem 1.1rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+ 
+.fila--editando {
+  background: var(--hover);
+  border-color: var(--denim);
+}
+ 
+.fila__nombre {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+ 
+.fila__acciones {
+  display: flex;
+  flex: none;
+  gap: 0.5rem;
+}
+ 
+.fila__edicion {
+  display: grid;
+  gap: 0.4rem;
+  width: 100%;
+}
+ 
+@media (prefers-reduced-motion: no-preference) {
+  .gestion__fila input,
+  .gestion__boton {
+    transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s, color 0.15s;
+  }
+}
+ 
+/* ---------- Buscador de la lista ---------- */
+ 
+.busqueda {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+ 
+.busqueda__campo {
+  box-sizing: border-box;
+  flex: 1 1 12rem;
+  padding: 0.7rem 0.85rem;
+  font: inherit;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+ 
+.busqueda__campo::placeholder {
+  color: #8b94a3;
+}
+ 
+.busqueda__campo:focus-visible {
+  outline: none;
+  border-color: var(--denim);
+  box-shadow: 0 0 0 3px rgba(47, 79, 127, 0.22);
+}
+ 
+@media (prefers-reduced-motion: no-preference) {
+  .busqueda__campo {
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+}

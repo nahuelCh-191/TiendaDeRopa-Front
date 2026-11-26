@@ -1,0 +1,99 @@
+<main class="resultados">
+  <header class="resultados__head">
+    <div class="resultados__cabecera">
+      <div>
+        <h1>
+          @if (estado === 'error') {
+            Resultados
+          } @else if (nombre) {
+            Resultados para «{{ nombre }}»
+          } @else {
+            Prendas desde $ {{ valor }}
+          }
+        </h1>
+ 
+        @if (estado === 'listo') {
+          <p>
+            {{ prendas.length === 1 ? '1 prenda encontrada' : prendas.length + ' prendas encontradas' }}
+          </p>
+        }
+      </div>
+ 
+      @if (esAdmin && estado === 'listo') {
+        <div class="segmentos" role="group" aria-label="Qué prendas mostrar">
+          <button
+            type="button"
+            [attr.aria-pressed]="vista === 'activas'"
+            (click)="prendasActivas()"
+          >
+            Activas
+          </button>
+          <button
+            type="button"
+            [attr.aria-pressed]="vista === 'inactivas'"
+            (click)="prendasInactivas()"
+          >
+            Inactivas
+          </button>
+          <button
+            type="button"
+            [attr.aria-pressed]="vista === 'todas'"
+            (click)="todasPrendas()"
+          >
+            Todas
+          </button>
+        </div>
+      }
+    </div>
+  </header>
+ 
+  @if (estado === 'cargando') {
+    <p class="estado">Buscando prendas…</p>
+  } @else if (estado === 'error') {
+    <p class="aviso" role="alert">No se pudieron cargar las prendas. Probá de nuevo.</p>
+  } @else if (prendas.length === 0) {
+    <p class="estado">
+      @if (prendaSinFiltrar.length > 0) {
+        No hay prendas {{ vista === 'activas' ? 'activas' : 'inactivas' }} en esta búsqueda.
+      } @else {
+        No encontramos prendas para esta búsqueda.
+      }
+    </p>
+  } @else {
+    <ul class="prendas">
+      @for (p of prendas; track p.id) {
+        <li>
+          <button type="button" class="prenda" (click)="seleccionarPrenda(p.id)">
+            <span class="prenda__principal">
+              <span class="prenda__nombre">
+                {{ p.nombrePrenda }}
+                @if (!p.prendaActiva) {
+                  <span class="insignia">Inactiva</span>
+                }
+              </span>
+ 
+              <span class="prenda__ruta">
+                {{ p.subCategoria.categoria.nombreCategoria }} › {{ p.subCategoria.nombreSubCategoria }}
+              </span>
+ 
+              @if (p.listaEtiquetasPrenda.length > 0) {
+                <span class="tags">
+                  @for (e of p.listaEtiquetasPrenda; track e.id) {
+                    <span class="tag">{{ e.nombreEtiqueta }}</span>
+                  }
+                </span>
+              }
+            </span>
+ 
+            <span class="prenda__datos">
+              <span class="prenda__precio">$ {{ p.precioPrenda }}</span>
+              <span class="prenda__stock" [class.prenda__stock--agotado]="p.cantidad === 0">
+                {{ p.cantidad === 0 ? 'Sin stock' : 'Stock: ' + p.cantidad }}
+              </span>
+            </span>
+          </button>
+        </li>
+      }
+    </ul>
+  }
+</main>

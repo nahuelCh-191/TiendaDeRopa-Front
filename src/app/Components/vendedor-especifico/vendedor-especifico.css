@@ -1,0 +1,253 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  --ink: #1b2330;
+  --muted: #5b6575;
+  --denim: #2f4f7f;
+  --paper: #f4f5f7;
+  --surface: #ffffff;
+  --line: #d3d8e0;
+  --hover: #eef2f8;
+  --danger: #b3261e;
+  --danger-bg: #fdecea;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+ 
+.vendedor {
+  display: grid;
+  gap: 1.5rem;
+  max-width: 52rem;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+ 
+.enlace {
+  justify-self: start;
+  padding: 0.25rem 0;
+  font: inherit;
+  color: var(--denim);
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+ 
+.enlace:hover {
+  text-decoration: underline;
+}
+ 
+.aviso {
+  margin: 0;
+  padding: 0.7rem 0.9rem;
+  font-size: 0.9rem;
+  color: var(--danger);
+  background: var(--danger-bg);
+  border-radius: 8px;
+}
+ 
+.estado {
+  margin: 0;
+  padding: 0.75rem 0;
+  color: var(--muted);
+}
+ 
+.ayuda {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+ 
+/* ---------- Encabezado ---------- */
+ 
+.vendedor__head h1 {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+ 
+.vendedor__head p {
+  margin: 0.4rem 0 0;
+  color: var(--muted);
+}
+ 
+/* ---------- Tarjetas de totales ---------- */
+ 
+.tarjetas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: 0.75rem;
+}
+ 
+.tarjeta {
+  display: grid;
+  gap: 0.35rem;
+  align-content: start;
+  padding: 1.1rem 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+ 
+/* La tarjeta del período que se está viendo en la tabla */
+.tarjeta--activa {
+  border-color: var(--denim);
+}
+ 
+.tarjeta h2 {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+ 
+.tarjeta--activa h2 {
+  color: var(--denim);
+}
+ 
+.tarjeta__total {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+}
+ 
+.tarjeta__detalle {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+ 
+/* ---------- Ventas ---------- */
+ 
+.seccion {
+  display: grid;
+  gap: 1rem;
+}
+ 
+.seccion__cabecera {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+ 
+.seccion h2 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+ 
+.segmentos {
+  display: inline-flex;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+ 
+.segmentos button {
+  padding: 0.45rem 0.9rem;
+  font: inherit;
+  font-size: 0.9rem;
+  color: var(--ink);
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+ 
+.segmentos button + button {
+  border-left: 1px solid var(--line);
+}
+ 
+.segmentos button:hover {
+  background: var(--hover);
+}
+ 
+.segmentos button[aria-pressed="true"] {
+  color: #fff;
+  background: var(--denim);
+}
+ 
+.segmentos button:focus-visible {
+  outline: 2px solid var(--denim);
+  outline-offset: -2px;
+}
+ 
+.tabla {
+  overflow-x: auto;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+ 
+.tabla table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+ 
+.tabla th,
+.tabla td {
+  padding: 0.7rem 1rem;
+  text-align: left;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--line);
+}
+ 
+.tabla thead th {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--muted);
+  background: var(--hover);
+}
+ 
+.tabla tbody tr:hover {
+  background: var(--hover);
+}
+ 
+.tabla .num {
+  text-align: right;
+}
+ 
+/* Total al pie: sale del endpoint, para poder contrastarlo con la suma de las filas */
+.tabla tfoot th,
+.tabla tfoot td {
+  font-weight: 650;
+  border-top: 2px solid var(--line);
+  border-bottom: 0;
+}
+ 
+.enlace-fila {
+  padding: 0;
+  font: inherit;
+  font-weight: 600;
+  color: var(--denim);
+  text-align: left;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+ 
+.enlace-fila:hover {
+  text-decoration: underline;
+}
+ 
+.enlace-fila:focus-visible {
+  outline: 2px solid var(--denim);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+ 
+@media (prefers-reduced-motion: no-preference) {
+  .tarjeta,
+  .segmentos button,
+  .tabla tbody tr {
+    transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+  }
+}
